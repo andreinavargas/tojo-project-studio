@@ -1,145 +1,88 @@
-export default function Services({ dopamineMode }) {
+export default function Services() {
   const services = [
     {
-      number: '01',
-      title: 'Arquitectura de software',
-      description:
-        'Diseño de sistemas claros, escalables y mantenibles, con una base técnica sólida.',
-      color: '#F97316',
-      label: 'System',
+      title: 'Frontend Development',
+      text: 'Fast, accessible interfaces designed to evolve.',
+      icon: 'squares',
     },
     {
-      number: '02',
-      title: 'Frontend',
-      description:
-        'Interfaces limpias, precisas y bien construidas, con foco en estructura, consistencia y detalle.',
-      color: '#2563EB',
-      label: 'Interface',
+      title: 'Software Architecture',
+      text: 'Solid foundations, modular systems and long-term maintainability.',
+      icon: 'layers',
     },
     {
-      number: '03',
-      title: 'Diseño web',
-      description:
-        'Presencias digitales sobrias y contemporáneas, con una identidad visual clara.',
-      color: '#EC4899',
-      label: 'Presence',
+      title: 'Design Systems',
+      text: 'Reusable components and consistent product experiences.',
+      icon: 'circle',
+    },
+    {
+      title: 'Content Strategy',
+      text: 'Writing, storytelling and digital presence with clarity and purpose.',
+      icon: 'lines',
     },
   ];
 
   return (
     <section
-      id="servicios"
-      className={
-        dopamineMode
-          ? 'relative overflow-hidden bg-[#FFFBF3]'
-          : 'relative overflow-hidden bg-stone-50'
-      }
+      id="services"
+      className="border-b border-zinc-200 bg-[#f7f5f0]"
     >
-      <div className="mx-auto max-w-7xl px-6 py-24 md:px-10 lg:px-12 lg:py-32">
-        <div className="mb-14 flex items-end justify-between gap-8">
-          <div>
-            <p
-              className={
-                dopamineMode
-                  ? 'inline-block bg-[#111827] px-3 py-2 text-[11px] uppercase tracking-[0.34em] text-white'
-                  : 'text-[11px] uppercase tracking-[0.38em] text-zinc-500'
-              }
-            >
-              Servicios
+      <div className="mx-auto grid max-w-[1680px] gap-14 px-8 py-20 lg:grid-cols-[0.55fr_1.45fr] lg:px-16">
+        <div>
+          <div className="inline-flex items-center rounded-full border border-zinc-300 bg-white/60 px-4 py-2">
+            <p className="text-[10px] uppercase tracking-[0.32em] text-zinc-700">
+              Services
             </p>
-
-            <h2 className="mt-5 max-w-2xl text-3xl font-light tracking-tight text-zinc-900 md:text-4xl">
-              Arquitectura, frontend y claridad visual.
-            </h2>
           </div>
+          <div className="mt-5 h-px w-10 bg-zinc-950" />
+          <h2 className="mt-8 max-w-[360px] text-[40px] font-light leading-[1.04] tracking-[-0.04em]">
+            Systems that support products that scale.
+          </h2>
         </div>
 
-        <div className="grid gap-6">
+        <div className="grid gap-10 md:grid-cols-4">
           {services.map((service) => (
-            <article
-              key={service.number}
-              className={
-                dopamineMode
-                  ? 'relative overflow-hidden rounded-[1.75rem] border border-[#111827] bg-white/80 p-7'
-                  : 'relative overflow-hidden rounded-[1.75rem] border border-zinc-200 bg-white/70 p-7 backdrop-blur-sm'
-              }
-            >
-              {dopamineMode ? (
-                <>
-                  <div
-                    className="absolute left-0 top-0 h-3 w-28"
-                    style={{ backgroundColor: service.color }}
-                  />
-                  <div className="absolute left-0 top-0 h-24 w-[6px] bg-[#111827]" />
-                  <div
-                    className="absolute right-0 bottom-0 h-3 w-20"
-                    style={{ backgroundColor: service.color }}
-                  />
-                </>
-              ) : (
-                <>
-                  {/* 🔴 TU DISEÑO ORIGINAL */}
-                  <div className="absolute left-0 top-0 h-px w-20 bg-[#8FA7C4]/40" />
-                  <div className="absolute left-0 top-0 h-20 w-px bg-[#8FA7C4]/40" />
-                  <div className="absolute right-0 bottom-0 h-px w-20 bg-zinc-300" />
-                  <div className="absolute right-0 bottom-0 h-20 w-px bg-zinc-300" />
-                </>
-              )}
-
-              <div className="mb-8 flex items-start justify-between gap-6">
-                <span
-                  className={
-                    dopamineMode
-                      ? 'text-[42px] font-light tracking-[-0.06em] text-[#111827]'
-                      : 'text-[32px] font-light tracking-[-0.04em] text-zinc-400'
-                  }
-                >
-                  {service.number}
-                </span>
-
-                <span
-                  className={
-                    dopamineMode
-                      ? 'px-3 py-2 text-[10px] uppercase tracking-[0.35em] text-white'
-                      : 'text-[10px] uppercase tracking-[0.35em] text-[#6F87A3]'
-                  }
-                  style={dopamineMode ? { backgroundColor: service.color } : {}}
-                >
-                  {service.label}
-                </span>
-              </div>
-
-              <h3 className="text-xl font-light text-zinc-900 md:text-2xl">
-                {service.title}
-              </h3>
-
-              <p className="mt-4 text-sm leading-7 text-zinc-600">
-                {service.description}
-              </p>
-
-              <div className="mt-8 flex items-center gap-3">
-                {dopamineMode ? (
-                  <>
-                    <span className="h-[3px] w-16 bg-[#111827]" />
-                    <span
-                      className="h-3 w-3"
-                      style={{ backgroundColor: service.color }}
-                    />
-                    <span className="h-[3px] w-24 bg-[#111827]/20" />
-                  </>
-                ) : (
-                  <>
-                    {/* 🔴 ORIGINAL */}
-                    <span className="h-px w-16 bg-zinc-300" />
-                    <span className="h-2 w-2 rounded-full bg-[#8FA7C4]" />
-                    <span className="h-px w-24 bg-zinc-200" />
-                  </>
-                )}
-              </div>
+            <article key={service.title} className="border-l border-zinc-200 pl-8">
+              <Icon type={service.icon} />
+              <h3 className="mt-8 text-sm font-semibold">{service.title}</h3>
+              <p className="mt-4 text-sm leading-6 text-zinc-600">{service.text}</p>
             </article>
           ))}
         </div>
       </div>
     </section>
+  );
+}
+
+function Icon({ type }) {
+  if (type === 'squares') {
+    return (
+      <div className="relative h-9 w-9">
+        <div className="absolute left-0 top-0 h-5 w-5 border border-zinc-950" />
+        <div className="absolute bottom-0 right-0 h-5 w-5 border border-zinc-950" />
+      </div>
+    );
+  }
+
+  if (type === 'layers') {
+    return (
+      <div className="relative h-9 w-9">
+        <div className="absolute left-1 top-0 h-5 w-5 rotate-45 border border-zinc-950" />
+        <div className="absolute left-1 top-2 h-5 w-5 rotate-45 border border-zinc-950" />
+        <div className="absolute left-1 top-4 h-5 w-5 rotate-45 border border-zinc-950" />
+      </div>
+    );
+  }
+
+  if (type === 'circle') {
+    return <div className="h-9 w-9 rounded-full border border-zinc-950" />;
+  }
+
+  return (
+    <div className="space-y-2 pt-1">
+      <div className="h-px w-9 bg-zinc-950" />
+      <div className="h-px w-6 bg-zinc-950" />
+      <div className="h-px w-4 bg-zinc-950" />
+    </div>
   );
 }
