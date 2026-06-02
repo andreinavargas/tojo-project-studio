@@ -1,4 +1,9 @@
-export default function Contact() {
+export default function Contact({ dopamineMode }) {
+  if (dopamineMode) return <DopamineContact />;
+  return <BlueprintContact />;
+}
+
+function BlueprintContact() {
   return (
     <section id="contact" className="bg-[#fbfaf7]">
       <div className="mx-auto max-w-[1680px] px-8 py-24 lg:px-16">
@@ -13,27 +18,109 @@ export default function Contact() {
             <h2 className="mt-8 max-w-[420px] text-[48px] font-light leading-[1.02] tracking-[-0.04em]">
               Let&apos;s build something useful.
             </h2>
-
-            <p className="mt-8 max-w-md text-base leading-8 text-zinc-600">
-              Tell us about your project, challenge or idea. We&apos;ll get back to you as soon as possible.
-            </p>
           </div>
 
-          <form className="grid gap-5">
-            <input className="rounded-lg border border-zinc-300 bg-white/70 px-5 py-4 outline-none focus:border-zinc-950" placeholder="Name" />
-            <input className="rounded-lg border border-zinc-300 bg-white/70 px-5 py-4 outline-none focus:border-zinc-950" placeholder="Email" />
-            <input className="rounded-lg border border-zinc-300 bg-white/70 px-5 py-4 outline-none focus:border-zinc-950" placeholder="Company" />
-            <textarea className="min-h-[180px] rounded-lg border border-zinc-300 bg-white/70 px-5 py-4 outline-none focus:border-zinc-950" placeholder="Tell us about your project" />
-
-            <button
-              type="button"
-              className="mt-3 inline-flex w-fit justify-center rounded-lg border border-zinc-950 bg-zinc-950 px-9 py-4 text-sm font-semibold uppercase tracking-[0.08em] text-white"
-            >
-              Send message
-            </button>
-          </form>
+          <ContactForm />
         </div>
       </div>
     </section>
+  );
+}
+
+function DopamineContact() {
+  return (
+    <section id="contact" className="bg-[#FFF3D6]">
+      <div className="mx-auto grid max-w-[1680px] border-2 border-[#111111] lg:grid-cols-[0.16fr_0.18fr_0.66fr]">
+        <div className="min-h-[460px] px-10 py-12 lg:px-16">
+          <div className="inline-flex bg-[#111111] px-4 py-2">
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-white">
+              Contact
+            </p>
+          </div>
+
+          <h2 className="mt-8 text-[46px] font-black uppercase leading-[0.92] tracking-[-0.055em] text-[#111111] md:text-[60px] lg:text-[66px] xl:text-[78px]">
+            Let&apos;s build
+            <br />
+            something
+            <br />
+            <span className="text-[#F4362F]">awesome.</span>
+          </h2>
+
+          <div className="mt-8 text-4xl text-[#111111]">✦</div>
+        </div>
+
+        <div className="flex min-h-[460px] items-center justify-center border-r-2 border-[#111111] px-8 py-12">
+          <div className="flex h-[270px] w-[270px] items-center justify-center rounded-full border-2 border-[#111111] bg-[#FFD400] p-8 text-center text-base font-black leading-7 text-[#111111]">
+            Tell us about
+            <br />
+            your project,
+            <br />
+            challenge or idea.
+            <br />
+            We&apos;ll get back
+            <br />
+            to you soon!
+          </div>
+        </div>
+
+        <div className="min-h-[460px] px-8 py-12 lg:px-12">
+          <ContactForm dopamine />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ContactForm({ dopamine = false }) {
+  const inputClass = dopamine
+    ? 'border-2 border-[#111111] bg-[#FFF3D6] px-4 py-4 text-sm font-semibold text-[#111111] outline-none placeholder:text-[#111111]/60'
+    : 'rounded-lg border border-zinc-300 bg-white/70 px-5 py-4 outline-none focus:border-zinc-950';
+
+  if (dopamine) {
+    return (
+      <form className="mx-auto flex h-full w-full flex-col justify-between">
+        <div>
+          <div className="grid gap-5 md:grid-cols-3">
+            <input className={inputClass} placeholder="Name" />
+            <input className={inputClass} placeholder="Email" />
+            <input className={inputClass} placeholder="Company" />
+          </div>
+
+          <textarea
+            className={`${inputClass} mt-5 min-h-[220px] w-full resize-none`}
+            placeholder="Tell us about your project"
+          />
+        </div>
+
+        <button
+          type="button"
+          className="mt-6 ml-auto border-2 border-[#111111] bg-[#F4362F] px-14 py-4 text-sm font-black uppercase tracking-[0.08em] text-white shadow-[6px_6px_0_#111111] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[4px_4px_0_#111111]"
+        >
+          Send Message
+        </button>
+      </form>
+    );
+  }
+
+  return (
+    <form className="grid gap-4">
+      <div className="grid gap-4 md:grid-cols-3">
+        <input className={inputClass} placeholder="Name" />
+        <input className={inputClass} placeholder="Email" />
+        <input className={inputClass} placeholder="Company" />
+      </div>
+
+      <textarea
+        className={`${inputClass} min-h-[180px] resize-none`}
+        placeholder="Tell us about your project"
+      />
+
+      <button
+        type="button"
+        className="mt-3 inline-flex w-fit justify-center rounded-lg border border-zinc-950 bg-zinc-950 px-9 py-4 text-sm font-semibold uppercase tracking-[0.08em] text-white"
+      >
+        Send message
+      </button>
+    </form>
   );
 }

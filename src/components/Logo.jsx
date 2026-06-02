@@ -6,7 +6,7 @@ export default function Logo() {
       <img
         src={logo}
         alt="Tojo Project Studio"
-        className="h-auto w-[250px] md:w-[330px]"
+        className="h-auto w-[320px] md:w-[470px]"
       />
     </a>
   );
