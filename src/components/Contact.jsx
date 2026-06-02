@@ -7,7 +7,7 @@ function BlueprintContact() {
   return (
     <section id="contact" className="bg-[#fbfaf7]">
       <div className="mx-auto max-w-[1680px] px-8 py-24 lg:px-16">
-        <div className="grid gap-12 border-t border-zinc-200 pt-20 lg:grid-cols-[0.7fr_1.3fr]">
+        <div className="grid gap-12  border-zinc-200 pt-20 lg:grid-cols-[0.7fr_1.3fr]">
           <div>
             <p className="text-[11px] uppercase tracking-[0.38em] text-zinc-600">
               Contact
