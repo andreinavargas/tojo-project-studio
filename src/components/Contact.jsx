@@ -1,3 +1,4 @@
+import ContactForm from './ContactForm';
 export default function Contact({ dopamineMode }) {
   if (dopamineMode) return <DopamineContact />;
   return <BlueprintContact />;
@@ -71,56 +72,3 @@ function DopamineContact() {
   );
 }
 
-function ContactForm({ dopamine = false }) {
-  const inputClass = dopamine
-    ? 'border-2 border-[#111111] bg-[#FFF3D6] px-4 py-4 text-sm font-semibold text-[#111111] outline-none placeholder:text-[#111111]/60'
-    : 'rounded-lg border border-zinc-300 bg-white/70 px-5 py-4 outline-none focus:border-zinc-950';
-
-  if (dopamine) {
-    return (
-      <form className="mx-auto flex h-full w-full flex-col justify-between">
-        <div>
-          <div className="grid gap-5 md:grid-cols-3">
-            <input className={inputClass} placeholder="Name" />
-            <input className={inputClass} placeholder="Email" />
-            <input className={inputClass} placeholder="Company" />
-          </div>
-
-          <textarea
-            className={`${inputClass} mt-5 min-h-[220px] w-full resize-none`}
-            placeholder="Tell us about your project"
-          />
-        </div>
-
-        <button
-          type="button"
-          className="mt-6 ml-auto border-2 border-[#111111] bg-[#F4362F] px-14 py-4 text-sm font-black uppercase tracking-[0.08em] text-white shadow-[6px_6px_0_#111111] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[4px_4px_0_#111111]"
-        >
-          Send Message
-        </button>
-      </form>
-    );
-  }
-
-  return (
-    <form className="grid gap-4">
-      <div className="grid gap-4 md:grid-cols-3">
-        <input className={inputClass} placeholder="Name" />
-        <input className={inputClass} placeholder="Email" />
-        <input className={inputClass} placeholder="Company" />
-      </div>
-
-      <textarea
-        className={`${inputClass} min-h-[180px] resize-none`}
-        placeholder="Tell us about your project"
-      />
-
-      <button
-        type="button"
-        className="mt-3 inline-flex w-fit justify-center rounded-lg border border-zinc-950 bg-zinc-950 px-9 py-4 text-sm font-semibold uppercase tracking-[0.08em] text-white"
-      >
-        Send message
-      </button>
-    </form>
-  );
-}

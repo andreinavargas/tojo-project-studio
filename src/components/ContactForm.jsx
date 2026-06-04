@@ -1,156 +1,156 @@
 import { useState } from 'react';
 
-export default function ContactForm({ onClose, dopamineMode }) {
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    company: '',
-    message: '',
-  });
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xpqezkll';
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+export default function ContactForm({ dopamine = false }) {
+  const [status, setStatus] = useState('');
+  const [isSending, setIsSending] = useState(false);
 
-  const mailtoHref = `mailto:hola@tojoprojectstudio.com?subject=${encodeURIComponent(
-    `Nuevo contacto de ${form.name || 'web Tojo'}`
-  )}&body=${encodeURIComponent(
-    `Nombre: ${form.name}\nEmail: ${form.email}\nEmpresa: ${form.company}\n\nMensaje:\n${form.message}`
-  )}`;
+  const inputClass = dopamine
+    ? 'border-2 border-[#111111] bg-[#FFF3D6] px-4 py-4 text-sm font-semibold text-[#111111] outline-none placeholder:text-[#111111]/60'
+    : 'rounded-lg border border-zinc-300 bg-white/70 px-5 py-4 outline-none focus:border-zinc-950';
 
-  return (
-    <div
-      className={
-        dopamineMode
-          ? 'relative mt-10 overflow-hidden rounded-[1.75rem] border border-[#111827] bg-white/90 p-6 shadow-[0_18px_50px_rgba(17,24,39,0.06)] md:p-8'
-          : 'relative mt-10 rounded-[1.75rem] border border-zinc-200 bg-stone-50/90 p-6 md:p-8'
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const data = new FormData(form);
+
+    const name = data.get('name')?.toString().trim();
+    const email = data.get('email')?.toString().trim();
+    const message = data.get('message')?.toString().trim();
+    const botField = data.get('_gotcha');
+
+    if (botField) return;
+
+    if (!name || name.length < 2) {
+      setStatus('Please enter your name.');
+      return;
+    }
+
+    if (!email || !email.includes('@')) {
+      setStatus('Please enter a valid email.');
+      return;
+    }
+
+    if (!message || message.length < 10) {
+      setStatus('Please tell us a little more about your project.');
+      return;
+    }
+
+    setStatus('');
+    setIsSending(true);
+
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        body: data,
+        headers: {
+          Accept: 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Formspree error');
       }
-    >
-      {dopamineMode ? (
-        <>
-          <div className="absolute left-0 top-0 h-3 w-24 bg-[#F97316]" />
-          <div className="absolute right-0 bottom-0 h-3 w-20 bg-[#EC4899]" />
-        </>
-      ) : null}
 
-      <div className="mb-8 flex items-center justify-between">
-        <p
-          className={
-            dopamineMode
-              ? 'inline-block bg-[#111827] px-3 py-2 text-[11px] uppercase tracking-[0.34em] text-white'
-              : 'text-[11px] uppercase tracking-[0.38em] text-zinc-500'
-          }
-        >
-          Formulario
-        </p>
+      setStatus("Message sent. We'll get back to you soon.");
+      form.reset();
+    } catch (error) {
+      setStatus('Something went wrong. Please try again.');
+    } finally {
+      setIsSending(false);
+    }
+  }
 
-        <button
-          type="button"
-          onClick={onClose}
-          className={
-            dopamineMode
-              ? 'text-sm text-zinc-700 hover:text-zinc-900'
-              : 'text-sm text-zinc-500 hover:text-zinc-900'
-          }
-        >
-          Cerrar ✕
-        </button>
-      </div>
-
-      <form className="grid gap-6 md:grid-cols-2">
-        <div>
-          <label className="mb-2 block text-sm text-zinc-700">Nombre</label>
-          <input
-            type="text"
-            name="name"
-            value={form.name}
-            onChange={handleChange}
-            placeholder="Tu nombre"
-            className={
-              dopamineMode
-                ? 'w-full rounded-2xl border border-[#111827]/15 bg-[#FFFBF3] px-4 py-3 text-zinc-900 outline-none transition focus:border-[#2563EB]'
-                : 'w-full rounded-2xl border border-zinc-300 bg-white px-4 py-3 text-zinc-900 outline-none transition focus:border-zinc-500'
-            }
-          />
-        </div>
+  if (dopamine) {
+    return (
+      <form
+        onSubmit={handleSubmit}
+        className="mx-auto flex h-full w-full flex-col justify-between"
+      >
+        <input
+          type="text"
+          name="_gotcha"
+          tabIndex="-1"
+          autoComplete="off"
+          className="hidden"
+        />
 
         <div>
-          <label className="mb-2 block text-sm text-zinc-700">Email</label>
-          <input
-            type="email"
-            name="email"
-            value={form.email}
-            onChange={handleChange}
-            placeholder="tu@email.com"
-            className={
-              dopamineMode
-                ? 'w-full rounded-2xl border border-[#111827]/15 bg-[#FFFBF3] px-4 py-3 text-zinc-900 outline-none transition focus:border-[#EC4899]'
-                : 'w-full rounded-2xl border border-zinc-300 bg-white px-4 py-3 text-zinc-900 outline-none transition focus:border-zinc-500'
-            }
-          />
-        </div>
+          <div className="grid gap-5 md:grid-cols-3">
+            <input name="name" className={inputClass} placeholder="Name" required />
+            <input name="email" type="email" className={inputClass} placeholder="Email" required />
+            <input name="company" className={inputClass} placeholder="Company" />
+          </div>
 
-        <div className="md:col-span-2">
-          <label className="mb-2 block text-sm text-zinc-700">Empresa o proyecto</label>
-          <input
-            type="text"
-            name="company"
-            value={form.company}
-            onChange={handleChange}
-            placeholder="Nombre de tu proyecto"
-            className={
-              dopamineMode
-                ? 'w-full rounded-2xl border border-[#111827]/15 bg-[#FFFBF3] px-4 py-3 text-zinc-900 outline-none transition focus:border-[#F97316]'
-                : 'w-full rounded-2xl border border-zinc-300 bg-white px-4 py-3 text-zinc-900 outline-none transition focus:border-zinc-500'
-            }
-          />
-        </div>
-
-        <div className="md:col-span-2">
-          <label className="mb-2 block text-sm text-zinc-700">Mensaje</label>
           <textarea
             name="message"
-            value={form.message}
-            onChange={handleChange}
-            rows="6"
-            placeholder="Cuéntanos qué necesitas"
-            className={
-              dopamineMode
-                ? 'w-full rounded-2xl border border-[#111827]/15 bg-[#FFFBF3] px-4 py-3 text-zinc-900 outline-none transition focus:border-[#14B8A6]'
-                : 'w-full rounded-2xl border border-zinc-300 bg-white px-4 py-3 text-zinc-900 outline-none transition focus:border-zinc-500'
-            }
+            className={`${inputClass} mt-5 min-h-[220px] w-full resize-none`}
+            placeholder="Tell us about your project"
+            required
+          />
+
+          <input
+            type="hidden"
+            name="_subject"
+            value="New message from Tojo Project Studio"
           />
         </div>
 
-        <div className="md:col-span-2 flex flex-col gap-4 sm:flex-row">
-          <a
-            href={mailtoHref}
-            className={
-              dopamineMode
-                ? 'inline-flex items-center justify-center rounded-2xl border border-[#111827] bg-[#111827] px-6 py-3 text-sm font-medium text-white transition hover:translate-y-[-1px]'
-                : 'inline-flex items-center justify-center rounded-2xl border border-zinc-900 bg-zinc-900 px-6 py-3 text-sm font-medium text-white transition hover:translate-y-[-1px]'
-            }
-          >
-            Enviar
-          </a>
-
+        <div className="mt-6 flex flex-col items-end gap-3">
           <button
-            type="button"
-            onClick={onClose}
-            className={
-              dopamineMode
-                ? 'inline-flex items-center justify-center rounded-2xl border border-[#111827]/20 bg-[#FFFBF3] px-6 py-3 text-sm font-medium text-zinc-900 transition hover:border-[#111827]'
-                : 'inline-flex items-center justify-center rounded-2xl border border-zinc-300 bg-white px-6 py-3 text-sm font-medium text-zinc-900 transition hover:border-zinc-400'
-            }
+            type="submit"
+            disabled={isSending}
+            className="ml-auto border-2 border-[#111111] bg-[#F4362F] px-14 py-4 text-sm font-black uppercase tracking-[0.08em] text-white shadow-[6px_6px_0_#111111] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[4px_4px_0_#111111] disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Cancelar
+            {isSending ? 'Sending...' : 'Send Message'}
           </button>
+
+          {status && <p className="text-sm font-bold text-[#111111]">{status}</p>}
         </div>
       </form>
-    </div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="grid gap-4">
+      <input
+        type="text"
+        name="_gotcha"
+        tabIndex="-1"
+        autoComplete="off"
+        className="hidden"
+      />
+
+      <div className="grid gap-4 md:grid-cols-3">
+        <input name="name" className={inputClass} placeholder="Name" required />
+        <input name="email" type="email" className={inputClass} placeholder="Email" required />
+        <input name="company" className={inputClass} placeholder="Company" />
+      </div>
+
+      <textarea
+        name="message"
+        className={`${inputClass} min-h-[180px] resize-none`}
+        placeholder="Tell us about your project"
+        required
+      />
+
+      <input
+        type="hidden"
+        name="_subject"
+        value="New message from Tojo Project Studio"
+      />
+
+      <button
+        type="submit"
+        disabled={isSending}
+        className="mt-3 inline-flex w-fit justify-center rounded-lg border border-zinc-950 bg-zinc-950 px-9 py-4 text-sm font-semibold uppercase tracking-[0.08em] text-white disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        {isSending ? 'Sending...' : 'Send message'}
+      </button>
+
+      {status && <p className="text-sm font-medium text-zinc-700">{status}</p>}
+    </form>
   );
 }
