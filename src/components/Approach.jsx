@@ -34,8 +34,8 @@ function BlueprintApproach() {
 function DopamineApproach() {
   return (
     <section id="approach" className="bg-[#FFF3D6]">
-      <div className="mx-auto grid max-w-[1680px] border-x-2 border-t-2 border-[#111111] lg:grid-cols-[0.30fr_0.40fr_0.30fr]">
-        <div className="min-h-[460px] border-r-2 border-[#111111] px-8 py-12 lg:px-16">
+      <div className="mx-auto grid max-w-[1680px] border-x-2 lg:grid-cols-[0.30fr_0.40fr_0.30fr]">
+        <div className="border-r-2 border-[#111111] px-8 py-12 lg:min-h-[460px] lg:px-16">
           <div className="inline-flex bg-[#111111] px-4 py-2">
             <p className="text-xs font-black uppercase tracking-[0.16em] text-white">
               Approach
@@ -53,12 +53,14 @@ function DopamineApproach() {
           <div className="mt-8 text-4xl text-[#111111]">✦</div>
         </div>
 
-        <div className="min-h-[460px] border-r-2 border-[#111111]">
-          <img
-            src={bridgeIllustration}
-            alt="Architectural bridge illustration"
-            className="h-full w-full object-cover"
-          />
+        <div className="border-r-2 border-[#111111] p-6 lg:min-h-[460px] lg:p-0">
+          <div className="h-[280px] overflow-hidden border-2 border-[#111111] bg-[#FFF3D6] lg:h-full lg:border-0">
+            <img
+              src={bridgeIllustration}
+              alt="Architectural bridge illustration"
+              className="h-full w-full object-cover"
+            />
+          </div>
         </div>
 
         <div className="min-h-[460px] px-8 py-12 lg:px-12">
